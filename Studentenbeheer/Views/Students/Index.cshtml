@@ -1,0 +1,68 @@
+﻿@*@model IEnumerable<Studentenbeheer.Models.Student>*@
+    @model StudentIndexViewModel
+
+@{
+    ViewData["Title"] = "Studenten";
+}
+
+<h1>Beheer van studenten</h1>
+
+<p>
+    <a asp-action="Create">Student toevoegen</a>
+</p>
+<p>
+    <form asp-action="Index" asp-controller="Students" method="get">
+    Selecteer op naam:
+    <input type="text" name="searchField" />
+    <input type="submit" value="Filter" />
+
+    Selecteer op geslacht:
+        <select name="selectItem">
+        <option value=" "></option>
+        <option value="M">Man</option>
+        <option value="V">Vrouw</option>
+        <option value="O">Onbekend</option>
+        <input type="submit" value="Filter" />
+    </select>
+    </form>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                 <a asp-action="Index" asp-route-orderBy="@ViewBag.VoornaamField">@Html.DisplayNameFor(model => model.Students[0].FirstName)</a>
+                 <a asp-action="Index" asp-route-orderBy="@ViewBag.AchternaamField">@Html.DisplayNameFor(model => model.Students[0].LastName)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Students[0].DateOfBirth)
+            </th>
+            <th>
+                 <a asp-action="Index" asp-route-orderBy="@ViewBag.GenderField">@Html.DisplayNameFor(model => model.Students[0].Gender)</a>
+            </th>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Students) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Wijzig</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Verwijder</a> |
+                <a asp-controller="Inschrijvingens" asp-action="Create" asp-route-id="@item.ID" asp-route-num="0">Schrijf in</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
